@@ -1,0 +1,25 @@
+{
+  "name": "Store Maintenance — GPM Checklist",
+  "short_name": "GPM Checklist",
+  "description": "Daily, Weekly, Monthly & Quarterly store maintenance checklist app for GPM technicians — WhatsApp style, works offline.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ECE5DD",
+  "theme_color": "#075E54",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

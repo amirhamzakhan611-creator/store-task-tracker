@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>Store Maintenance — GPM Checklist</title>
+<meta name="description" content="Daily, Weekly, Monthly & Quarterly store maintenance checklist app for GPM technicians">
+<meta name="theme-color" content="#075E54">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GPM Checklist">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{--wg:#25D366;--wd:#128C7E;--wh:#075E54;--bg:#ECE5DD;--d:#FF6B35;--w:#0288D1;--m:#7B1FA2;--q:#B71C1C;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);min-height:100vh;}
+.top{background:var(--wh);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:99;box-shadow:0 2px 6px rgba(0,0,0,.3);}
+.av{width:40px;height:40px;background:var(--wg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.ti h2{font-size:14px;font-weight:700;}
+.ti p{font-size:10px;opacity:.8;margin-top:1px;}
+.ic{margin-left:auto;display:flex;gap:14px;font-size:17px;cursor:pointer;}
+#installBtn{display:none;background:var(--wg);color:#fff;border:none;padding:6px 12px;border-radius:16px;font-size:10px;font-weight:800;cursor:pointer;letter-spacing:.4px;}
+.tabs{background:var(--wh);display:flex;border-top:1px solid rgba(255,255,255,.1);}
+.tb{flex:1;padding:10px 2px;border:none;background:transparent;color:rgba(255,255,255,.55);font-size:10px;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;text-transform:uppercase;letter-spacing:.4px;transition:all .2s;}
+.tb.on{color:#fff;border-bottom-color:var(--wg);}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:3px;vertical-align:middle;}
+.chat{padding:10px 9px 88px;max-width:540px;margin:0 auto;}
+.ddiv{text-align:center;margin:8px 0 12px;}
+.ddiv span{background:rgba(0,0,0,.2);color:#fff;font-size:10px;font-weight:700;padding:4px 14px;border-radius:8px;}
+.panel{display:none;} .panel.on{display:block;}
+.scard{border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:11px;font-weight:700;border-left:4px solid;}
+.scard .row{display:flex;justify-content:space-between;margin-bottom:3px;}
+.scard .cnt{font-size:16px;font-weight:900;}
+.kpi{display:flex;gap:6px;padding:0 0 10px;overflow-x:auto;scrollbar-width:none;}
+.kpi::-webkit-scrollbar{display:none;}
+.kc{flex-shrink:0;background:#f0f9f6;border:1.5px solid #b2dfdb;border-radius:20px;padding:3px 10px;font-size:9px;font-weight:800;color:var(--wd);white-space:nowrap;}
+.offl{background:#E8F5E9;border:1px solid #A5D6A7;border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:10.5px;color:#1B5E20;font-weight:700;text-align:center;line-height:1.5;}
+.bub{background:#fff;border-radius:0 14px 14px 14px;margin-bottom:9px;box-shadow:0 1px 4px rgba(0,0,0,.13);overflow:hidden;position:relative;}
+.bub::before{content:'';position:absolute;top:0;left:-7px;border:7px solid transparent;border-right-color:#fff;border-top:0;}
+.bh{padding:10px 14px 8px;display:flex;align-items:center;gap:9px;}
+.bi{font-size:20px;}
+.bt h3{font-size:12px;font-weight:900;color:#111;line-height:1.3;}
+.bt p{font-size:9px;color:#888;font-weight:600;margin-top:1px;}
+.bdg{margin-left:auto;color:#fff;font-size:8px;font-weight:800;padding:3px 8px;border-radius:20px;text-transform:uppercase;flex-shrink:0;}
+.bdiv{height:1px;background:#f0f0f0;margin:0 14px;}
+.sl{padding:7px 14px 3px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.9px;display:flex;align-items:center;gap:6px;}
+.sl::after{content:'';flex:1;height:1px;background:currentColor;opacity:.2;}
+ul.cl{padding:3px 14px 9px;list-style:none;}
+ul.cl li{display:flex;align-items:flex-start;gap:8px;padding:5px 3px;border-bottom:1px solid #f2f2f2;cursor:pointer;border-radius:4px;transition:background .12s;user-select:none;}
+ul.cl li:last-child{border-bottom:none;}
+ul.cl li:active{background:#f0f0f0;}
+.cb{width:18px;height:18px;border:2px solid #ccc;border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;font-weight:700;transition:all .18s;}
+li.done .cb{background:var(--wg);border-color:var(--wg);color:#fff;}
+.tt{flex:1;}
+.tt strong{display:block;font-size:12px;font-weight:800;color:#1a1a1a;line-height:1.3;}
+.tt span{font-size:10.5px;color:#777;font-weight:600;line-height:1.35;}
+li.done .tt strong,li.done .tt span{color:#bbb;text-decoration:line-through;}
+.pr{font-size:8px;font-weight:800;padding:2px 6px;border-radius:10px;flex-shrink:0;margin-top:2px;}
+.H{background:#FFEBEE;color:#C62828;}.M{background:#FFF8E1;color:#E65100;}.L{background:#E8F5E9;color:#2E7D32;}
+.bf{background:#f7f7f7;padding:7px 14px;display:flex;align-items:center;gap:7px;font-size:10px;color:#666;font-weight:700;border-top:1px solid #eee;}
+.pb{flex:1;height:5px;background:#e0e0e0;border-radius:5px;overflow:hidden;}
+.pf{height:100%;background:var(--wg);border-radius:5px;width:0%;transition:width .6s ease;}
+.ts{text-align:right;font-size:9px;color:#bbb;padding:3px 13px 7px;font-family:monospace;}
+.cbtn{display:block;width:100%;margin:6px 0 10px;padding:12px;color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.8px;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+.cbtn:active{opacity:.85;transform:scale(.98);}
+.rbtn{display:block;width:100%;padding:9px;background:transparent;color:#888;border:1.5px solid #ccc;border-radius:10px;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;margin-bottom:16px;}
+.rbtn:active{background:#f0f0f0;}
+.sbar{position:fixed;bottom:0;left:0;right:0;background:#f0f0f0;padding:8px 10px;display:flex;gap:8px;align-items:center;border-top:1px solid #ddd;z-index:98;}
+.si{flex:1;background:#fff;border:none;border-radius:24px;padding:9px 15px;font-size:13px;outline:none;color:#333;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+.sb{width:40px;height:40px;background:var(--wg);border:none;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(37,211,102,.4);}
+.sb:active{transform:scale(.9);}
+.toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:8px 20px;border-radius:20px;font-size:12px;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="av">&#127978;</div>
+  <div class="ti">
+    <h2>Store Maintenance — GPM</h2>
+    <p id="syncNote">&#10003; Saved on this device &#8226; Works offline</p>
+  </div>
+  <button id="installBtn" onclick="installApp()">&#11015; Install App</button>
+</div>
+
+<div class="tabs">
+  <button class="tb on" onclick="sw('daily',this)"><span class="dot" style="background:var(--d)"></span>Daily</button>
+  <button class="tb" onclick="sw('weekly',this)"><span class="dot" style="background:var(--w)"></span>Weekly</button>
+  <button class="tb" onclick="sw('monthly',this)"><span class="dot" style="background:var(--m)"></span>Monthly</button>
+  <button class="tb" onclick="sw('quarterly',this)"><span class="dot" style="background:var(--q)"></span>Quarterly</button>
+</div>
+
+<div class="chat">
+
+<!-- ════════════════════ DAILY ════════════════════ -->
+<div id="tab-daily" class="panel on">
+<div class="offl">&#128241; Installed as App — auto-saves your progress on this device &#9989;</div>
+<div class="ddiv"><span>&#128197; TODAY — DAILY MAINTENANCE CHECKLIST</span></div>
+<div class="scard" style="background:#FFF3EE;border-color:var(--d)">
+  <div class="row"><span>&#127919; Daily Tasks</span><span class="cnt" id="daily-count" style="color:var(--d)">0/0</span></div>
+  <div class="row"><span>&#9201; Complete before shift end</span><span>&#9889; Priority: HIGH</span></div>
+</div>
+<div class="kpi">
+  <div class="kc">MTTR &lt; 2hrs</div><div class="kc">6S &#8805; 4/5</div><div class="kc">PM &#8805; 95%</div><div class="kc">Breakdown &lt; 5%</div><div class="kc">MTBF &gt; 30 days</div><div class="kc">Zero Unsafe Acts</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--d)">
+<div class="bh"><span class="bi">&#9889;</span><div class="bt"><h3>ELECTRICAL — Power &amp; Distribution</h3><p>Check every shift start — most critical</p></div><span class="bdg" style="background:var(--d)">Daily</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Main Power Supply</strong><span>Check incoming supply, MCB/RCCB condition &amp; voltage level</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>DB / Panel Inspection</strong><span>Inspect distribution board for loose wiring &amp; overheating</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>LT Panel / MCCB / Busbar</strong><span>Check LT panel, MCCB status, busbar &amp; indicator lights</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Phase Load Balance</strong><span>Ensure phase load balance; verify no single phase overloaded</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Earthing Continuity</strong><span>Ensure proper earthing continuity &amp; safety</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Cable &amp; Terminations</strong><span>Inspect cable dressing, glands &amp; terminations for loose/burnt</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Safety Inspection</strong><span>Check insulation, exposed wires, shock risk &amp; PPE usage</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="bf"><span class="bc">0/7</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">9:00 AM &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--d)">
+<div class="bh"><span class="bi">&#128161;</span><div class="bt"><h3>LIGHTING &amp; FIXTURES</h3><p>All zones — sales floor, backroom, cold room</p></div><span class="bdg" style="background:var(--d)">Daily</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Store Lighting — All Zones</strong><span>Check &amp; replace faulty lights, holders in all zones</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Signage Board Lights</strong><span>Inspect signage board illumination; note burnt LEDs or flickering</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Emergency / Exit Lights</strong><span>Test emergency lights; ensure battery backup is functional</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Sockets &amp; Switches</strong><span>Inspect &amp; repair/replace damaged sockets, switches &amp; covers</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/4</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">9:15 AM &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--d)">
+<div class="bh"><span class="bi">&#10052;</span><div class="bt"><h3>COOLING &amp; REFRIGERATION</h3><p>Temperature checks — critical priority</p></div><span class="bdg" style="background:var(--d)">Daily</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Visi Cooler / Display Fridge</strong><span>Check temperature, condenser, fan motor &amp; door gasket</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Cold Room — First Level</strong><span>Inspect temp log, door seal, defrost cycle &amp; drain</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Makeline Temperature</strong><span>Verify makeline temp within range; check gaskets &amp; hinges</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Air Conditioners (AC)</strong><span>Check AC operation, filter condition, drip trays &amp; temperature</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Ice Cube Machine</strong><span>Clean tray, check water supply, inspect ice production &amp; drain</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/5</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">10:00 AM &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--d)">
+<div class="bh"><span class="bi">&#128293;</span><div class="bt"><h3>GAS &amp; KITCHEN EQUIPMENT</h3><p>Safety critical — check before operations open</p></div><span class="bdg" style="background:var(--d)">Daily</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Gas Pipe &amp; Connections</strong><span>Inspect gas pipe for leaks (soap test); check all valves</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Gas Band / Regulator</strong><span>Check regulator pressure; ensure no leakage at any joint</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Microwave Oven</strong><span>Test operation; check door seal, turntable &amp; interior</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Oven</strong><span>Inspect heating element, door gasket &amp; temperature accuracy</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Geyser / Water Heater</strong><span>Check operation, thermostat &amp; pressure relief valve</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/5</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">10:30 AM &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--d)">
+<div class="bh"><span class="bi">&#128268;</span><div class="bt"><h3>POWER BACKUP, PLUMBING &amp; 6S</h3><p>End-of-shift checks</p></div><span class="bdg" style="background:var(--d)">Daily</span></div>
+<div class="bdiv"></div>
+<div class="sl" style="color:var(--d)">&#128268; Power Backup &amp; IT</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>UPS System</strong><span>Check battery status, alarm indicators &amp; bypass switch</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>DG / Generator</strong><span>Check fuel, oil, battery, changeover switch &amp; coolant level</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>IT Rack Cleaning</strong><span>First-level cleaning of IT rack; check cable management &amp; ventilation</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>CCTV System</strong><span>Check all cameras operational; clean lenses; verify DVR recording</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="sl" style="color:var(--d)">&#127744; HVAC Quick Check</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Exhaust Fans</strong><span>Inspect all exhaust fans — check motor, blades &amp; noise/vibration</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Fresh Air Fan</strong><span>Check fresh air fan operation; clean filters if required</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Air Curtain (Entrance)</strong><span>Test air curtain; check blower &amp; motor for noise/vibration</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="sl" style="color:var(--d)">&#128704; Plumbing, Civil &amp; 6S</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Water Motor / Pump</strong><span>Check motor operation, pressure &amp; noise; inspect connections</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>RO Water System</strong><span>Check RO filter output, flush system &amp; inspect pre-filters</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Drainage &amp; Choke-up</strong><span>Inspect floor drains; clear any blockages; check drain lines</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Rat Hole / Pest Points</strong><span>Inspect &amp; fill rat holes with wire mesh + cement; log locations</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>ETP Tank</strong><span>Check ETP tank joints; hand over to operations for cleaning</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>6S Walkthrough</strong><span>Verify Sort, Set-in-Order, Shine standards across all areas</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Fire Extinguisher</strong><span>Check pressure gauge, pin, seal &amp; expiry date on all units</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Weighing Scale</strong><span>Zero-check &amp; calibrate; clean platform; verify display</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>PPE &amp; Safety Signs</strong><span>Ensure PPE available at maintenance station; signs posted</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="bf"><span class="bc">0/16</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">5:00 PM &#10003;&#10003;</div>
+</div>
+
+<button class="cbtn" style="background:var(--d)" onclick="cp('daily')">&#128203; Copy Daily Report for WhatsApp</button>
+<button class="rbtn" onclick="rst('daily')">&#128260; Reset All Daily Tasks</button>
+</div>
+
+<!-- ════════════════════ WEEKLY ════════════════════ -->
+<div id="tab-weekly" class="panel">
+<div class="ddiv"><span>&#128197; WEEK — WEEKLY PM CHECKLIST</span></div>
+<div class="scard" style="background:#E3F2FD;border-color:var(--w)">
+  <div class="row"><span>&#128197; Weekly PM Tasks</span><span class="cnt" id="weekly-count" style="color:var(--w)">0/0</span></div>
+  <div class="row"><span>&#9201; Complete within 7 days</span><span>&#127919; PM Compliance &#8805; 95%</span></div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--w)">
+<div class="bh"><span class="bi">&#9889;</span><div class="bt"><h3>ELECTRICAL — Deep Inspection</h3><p>Every Monday morning</p></div><span class="bdg" style="background:var(--w)">Weekly</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Main Breaker Panel</strong><span>Tighten all connections; check heat with IR thermometer</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Phase Voltage &amp; Current</strong><span>Record R/Y/B phase voltage &amp; current; compare with last week log</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Power Factor Check</strong><span>Measure PF using PF meter; target &#8805; 0.9; log reading</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Earthing Test</strong><span>Earth resistance test on main &amp; sub-panels; target &lt; 5&#937;</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Wiring Inspection</strong><span>Inspect conduit, trunking, wire routes for damage or rodent chewing</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Meter Reading Verification</strong><span>Verify meter readings; check for abnormal consumption vs last week</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/6</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Mon 9:00 AM &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--w)">
+<div class="bh"><span class="bi">&#10052;</span><div class="bt"><h3>REFRIGERATION — Weekly PM</h3><p>Tuesday check</p></div><span class="bdg" style="background:var(--w)">Weekly</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Condenser Coil Cleaning</strong><span>Clean condenser coils with compressed air — all visi coolers &amp; cold room</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Evaporator Coil Check</strong><span>Inspect for frost buildup; check defrost heater operation</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Thermostat Calibration</strong><span>Verify thermostat accuracy on all cooling equipment; log set vs actual</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Door Gasket Inspection</strong><span>Check all gaskets for tears, gaps or poor sealing on all units</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Drain Pan &amp; Lines</strong><span>Clean drain pans; flush drain lines with water; check for blockages</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>7-Day Temperature Log Review</strong><span>Review logs; identify anomalies or out-of-range readings</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="bf"><span class="bc">0/6</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Tue 10:00 AM &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--w)">
+<div class="bh"><span class="bi">&#127744;</span><div class="bt"><h3>HVAC &amp; GAS — Weekly Service</h3><p>Wednesday check</p></div><span class="bdg" style="background:var(--w)">Weekly</span></div>
+<div class="bdiv"></div>
+<div class="sl" style="color:var(--w)">&#127744; HVAC</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>AC Filter Cleaning</strong><span>Remove, wash &amp; dry AC filters on all indoor units</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>AC Condenser Fan</strong><span>Clean condenser fan blades; check motor current; lubricate bearings</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Exhaust Fan Blades</strong><span>Clean exhaust fan blades; check belt tension &amp; alignment</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Duct Grille Cleaning</strong><span>Clean supply/return air grilles; check for obstruction or dirt</span></span><span class="pr L">L</span></li>
+</ul>
+<div class="sl" style="color:var(--w)">&#128293; Gas &amp; Kitchen</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Full Gas Leak Test</strong><span>Apply soap solution to all joints, regulators &amp; flexible hoses</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Burner / Pilot Cleaning</strong><span>Clean burner heads, pilots &amp; flame sensors on all gas equipment</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Kitchen Exhaust Hood</strong><span>Clean grease filters on kitchen exhaust hood; check fan operation</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/7</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Wed 11:00 AM &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--w)">
+<div class="bh"><span class="bi">&#128203;</span><div class="bt"><h3>POWER BACKUP, PLUMBING &amp; KPI</h3><p>Thursday–Friday checks</p></div><span class="bdg" style="background:var(--w)">Weekly</span></div>
+<div class="bdiv"></div>
+<div class="sl" style="color:var(--w)">&#128268; Power Backup</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>UPS Battery Test</strong><span>Run UPS on battery 5-min load test; check voltage under load; log</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>DG Run Test (15 min)</strong><span>Run DG 15 min under load; check oil, coolant, battery &amp; exhaust</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>DG Fuel Level</strong><span>Check diesel level; refill if below 25%; log fuel consumption</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Auto-Changeover Test</strong><span>Simulate power failure; verify ATS switches correctly to DG</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="sl" style="color:var(--w)">&#128704; Plumbing &amp; Pest</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>RO Filter Check</strong><span>Check RO TDS levels; flush membranes; inspect pre-filters</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Drain Line Flush</strong><span>Flush all floor drain lines with hot water; use drain cleaner if needed</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Pest Control Inspection</strong><span>Inspect all rat traps/bait stations; replace as needed; fill new holes</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="sl" style="color:var(--w)">&#128202; KPI &amp; Documentation</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>MTTR Calculation</strong><span>Calculate Mean Time To Repair for week; compare vs target &lt; 2 hrs</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Breakdown Log Review</strong><span>Review all breakdown job cards; identify repeat failures</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Spare Parts Inventory</strong><span>Count critical spares; raise requisition below reorder level</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>6S Audit Score</strong><span>Score each 6S pillar 1–5; total target &#8805; 24/30; log result</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>VSR Identification</strong><span>Identify tasks needing vendor support; raise VSR for next week</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/12</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Fri 4:00 PM &#10003;&#10003;</div>
+</div>
+
+<button class="cbtn" style="background:var(--w)" onclick="cp('weekly')">&#128203; Copy Weekly Report for WhatsApp</button>
+<button class="rbtn" onclick="rst('weekly')">&#128260; Reset All Weekly Tasks</button>
+</div>
+
+<!-- ════════════════════ MONTHLY ════════════════════ -->
+<div id="tab-monthly" class="panel">
+<div class="ddiv"><span>&#128197; MONTH — MONTHLY PM CHECKLIST</span></div>
+<div class="scard" style="background:#F3E5F5;border-color:var(--m)">
+  <div class="row"><span>&#128197; Monthly PM Tasks</span><span class="cnt" id="monthly-count" style="color:var(--m)">0/0</span></div>
+  <div class="row"><span>&#9201; Complete within calendar month</span><span>&#127919; Submit to Area Manager</span></div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--m)">
+<div class="bh"><span class="bi">&#9889;</span><div class="bt"><h3>ELECTRICAL — Monthly Deep PM</h3><p>Week 1 of month</p></div><span class="bdg" style="background:var(--m)">Monthly</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Thermal Imaging Scan</strong><span>IR thermometer on all panels, joints &amp; cable trays; record hotspots</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Insulation Resistance Test</strong><span>Megger test on all distribution cables; record &amp; compare M&#937; values</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>MCB/MCCB Trip Test</strong><span>Manually test tripping; replace any that fail to trip</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Busbar Tightening</strong><span>Torque-tighten all busbar connections per manufacturer specification</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Energy Consumption Report</strong><span>Monthly energy report; calculate cost per unit; identify savings</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Motor Inspection</strong><span>Check all motor windings, bearings, vibration &amp; insulation resistance</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Lightning Protection Check</strong><span>Inspect lightning arrester, earth pits &amp; bonding conductors</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/7</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Week 1 &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--m)">
+<div class="bh"><span class="bi">&#10052;</span><div class="bt"><h3>REFRIGERATION &amp; HVAC — Monthly</h3><p>Week 2 of month</p></div><span class="bdg" style="background:var(--m)">Monthly</span></div>
+<div class="bdiv"></div>
+<div class="sl" style="color:var(--m)">&#10052; Refrigeration</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Refrigerant Charge Check</strong><span>Measure suction/discharge pressure; compare with refrigerant chart</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Compressor Oil Level</strong><span>Check oil level &amp; color; change if dark or contaminated</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Condenser Coil Deep Clean</strong><span>Deep clean with coil cleaner chemical solution on all units</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>30-Day Temperature Log Review</strong><span>Analyze 30-day logs; identify inefficiency patterns &amp; report</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Gasket Full Check &amp; Replace</strong><span>Replace all worn gaskets on cold room &amp; visi cooler doors (VSR if needed)</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="sl" style="color:var(--m)">&#127744; HVAC</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>AC Full Service</strong><span>Clean coils indoor+outdoor, check refrigerant, test capacitor</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Exhaust Fan Belt Inspection</strong><span>Inspect &amp; replace worn belts on exhaust &amp; fresh air fans</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Air Curtain Full Service</strong><span>Clean blower, check motor, align curtain for max efficiency</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Ventilation Airflow Check</strong><span>Measure airflow at supply/return grilles; compare with design spec</span></span><span class="pr L">L</span></li>
+</ul>
+<div class="bf"><span class="bc">0/9</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Week 2 &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--m)">
+<div class="bh"><span class="bi">&#9878;</span><div class="bt"><h3>COMPLIANCE, CIVIL &amp; PLUMBING</h3><p>Week 3 of month</p></div><span class="bdg" style="background:var(--m)">Monthly</span></div>
+<div class="bdiv"></div>
+<div class="sl" style="color:var(--m)">&#9878; Safety Compliance</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Weighing Scale Full Calibration</strong><span>Full calibration with certified test weights; document certificate</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Fire Extinguisher Full Inspection</strong><span>Pressure, weight, seal, pin, nozzle &amp; expiry; log all units</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Fire Alarm System Test</strong><span>Test all smoke/heat detectors; check alarm panel &amp; call points</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>CCTV Full Check</strong><span>Review recording quality, HDD space, camera angles &amp; backup</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>First Aid Kit Check</strong><span>Inspect &amp; replenish first aid kit; check contents &amp; expiry dates</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Safety Signage Audit</strong><span>Inspect all safety signs for visibility, damage &amp; compliance</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="sl" style="color:var(--m)">&#128704; Plumbing &amp; Civil</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>RO Membrane Flush</strong><span>Full RO membrane flush; check TDS before &amp; after flush</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Water Motor Service</strong><span>Check starter, capacitor, current draw; grease bearings; clean strainer</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>ETP Tank Full Cleaning</strong><span>Drain, clean &amp; inspect ETP tank; coordinate with operations team</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Roof Waterproofing Check</strong><span>Inspect roof membrane, joints &amp; parapet walls for cracks/water ingress</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Civil Defects Report</strong><span>Walk entire store; document all civil defects (POP/paint/tiles) for VSR</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Pest Control Treatment</strong><span>Coordinate monthly pest treatment with approved vendor; get certificate</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/12</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Week 3 &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--m)">
+<div class="bh"><span class="bi">&#128202;</span><div class="bt"><h3>MONTHLY KPI REPORT</h3><p>Week 4 — Submit to Area Manager</p></div><span class="bdg" style="background:var(--m)">Monthly</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>MTTR Monthly Average</strong><span>Calculate avg MTTR for all breakdowns; compare vs target &lt; 2 hrs</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>MTBF Calculation</strong><span>Calculate MTBF per equipment; identify assets with low MTBF</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>PM Compliance %</strong><span>Calculate PM%; document reasons for any missed PMs</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Breakdown Frequency Report</strong><span>Count breakdowns per category; identify top 3 repeat failure areas</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Maintenance Cost Report</strong><span>Compile total maintenance cost; compare vs monthly budget</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Spare Parts Consumption</strong><span>Review usage; update inventory; reorder critical spares</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Kaizen Submission</strong><span>Submit minimum 1 Kaizen improvement idea for the month</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Monthly Report Submission</strong><span>Submit complete signed monthly maintenance report to Area Manager</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="bf"><span class="bc">0/8</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Month End &#10003;&#10003;</div>
+</div>
+
+<button class="cbtn" style="background:var(--m)" onclick="cp('monthly')">&#128203; Copy Monthly Report for WhatsApp</button>
+<button class="rbtn" onclick="rst('monthly')">&#128260; Reset All Monthly Tasks</button>
+</div>
+
+<!-- ════════════════════ QUARTERLY ════════════════════ -->
+<div id="tab-quarterly" class="panel">
+<div class="ddiv"><span>&#128197; QUARTER — QUARTERLY DEEP MAINTENANCE</span></div>
+<div class="scard" style="background:#FFEBEE;border-color:var(--q)">
+  <div class="row"><span>&#128295; Quarterly Deep Tasks</span><span class="cnt" id="quarterly-count" style="color:var(--q)">0/0</span></div>
+  <div class="row"><span>&#9201; Q1 / Q2 / Q3 / Q4 — Circle applicable</span><span>&#127919; Submit HO + Area Mgr</span></div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--q)">
+<div class="bh"><span class="bi">&#9889;</span><div class="bt"><h3>ELECTRICAL — Quarterly Overhaul</h3><p>Full panel shutdown &amp; inspection</p></div><span class="bdg" style="background:var(--q)">Quarterly</span></div>
+<div class="bdiv"></div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Full Panel Shutdown &amp; Inspection</strong><span>Shut panels safely; clean internals; tighten all connections; inspect busbars</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Megger Test — All Circuits</strong><span>Test phase-to-earth &amp; phase-to-phase; record all M&#937; values</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Load Flow Analysis</strong><span>Measure load on all panels; rebalance phases if &gt; 10% deviation</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Capacitor Bank Service</strong><span>Test capacitors; measure capacitance; replace faulty capacitors</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Cable Tray Full Inspection</strong><span>Full walk; fix loose cables, repair conduits, re-tag all cables</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Transformer Inspection</strong><span>Check transformer cooling oil, silica gel breather &amp; temperature indicators</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Earth Pit Maintenance</strong><span>Open all earth pits; add charcoal+salt+water; retest all resistance values</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="bf"><span class="bc">0/7</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Q1/Q2/Q3/Q4 &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--q)">
+<div class="bh"><span class="bi">&#10052;</span><div class="bt"><h3>REFRIGERATION &amp; HVAC — Overhaul</h3><p>Deep service all cooling &amp; air systems</p></div><span class="bdg" style="background:var(--q)">Quarterly</span></div>
+<div class="bdiv"></div>
+<div class="sl" style="color:var(--q)">&#10052; Refrigeration</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Compressor Full Service</strong><span>Check valves, gaskets &amp; oil; measure compression ratio</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Full Refrigerant System Pressure Test</strong><span>Pressure test entire system; check for micro-leaks with electronic detector</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Expansion Valve Check</strong><span>Test/replace TXV or capillary tube; check bulb &amp; equalizer line</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Evaporator Deep Chemical Clean</strong><span>Chemical flush evaporator coil; sanitize drain tray; replace drain plug</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Cold Room Insulation Check</strong><span>Inspect PUF panel joints, door frame seals &amp; floor insulation for damage</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Quarterly Temperature Trend Analysis</strong><span>Analyze quarterly temperature trends; calculate COP; report degradation</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="sl" style="color:var(--q)">&#127744; HVAC</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Full Duct Cleaning (VSR Required)</strong><span>Complete duct system cleaning by certified vendor; get hygiene certificate</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>AHU / FCU Full Service</strong><span>Clean/replace AHU filters, service fan motor, check coil fin condition</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>AC Condenser Coil Chemical Wash</strong><span>Chemical wash all outdoor condenser coils; check &amp; straighten bent fins</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>HVAC Controls &amp; Sensors Check</strong><span>Test thermostats, timers, BMS/DDC integration &amp; remote sensors</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/10</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Q1/Q2/Q3/Q4 &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--q)">
+<div class="bh"><span class="bi">&#128663;</span><div class="bt"><h3>FIRE SAFETY &amp; CIVIL — Quarterly</h3><p>Statutory compliance &amp; structural checks</p></div><span class="bdg" style="background:var(--q)">Quarterly</span></div>
+<div class="bdiv"></div>
+<div class="sl" style="color:var(--q)">&#128663; Fire Safety</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Fire Extinguisher Full Audit</strong><span>Weigh all extinguishers; arrange recharging for expired units (VSR)</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Fire Alarm Full System Test</strong><span>Test all detectors &amp; call points; verify panel response &amp; annunciator</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Sprinkler System Flow Test</strong><span>Flow test sprinklers; check head condition; verify water pressure</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Emergency Exit Full Audit</strong><span>Check all emergency exit lights, push bars &amp; clear evacuation pathways</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Fire Evacuation Drill</strong><span>Conduct quarterly fire drill; record evacuation time &amp; issues found</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Hydrant System Check</strong><span>Test fire hydrant pressure; inspect hose condition &amp; coupling threads</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="sl" style="color:var(--q)">&#127959; Civil &amp; Structure</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Roof Full Inspection</strong><span>Full roof walkthrough; document cracks, ponding areas &amp; membrane damage</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Floor &amp; Tile Inspection</strong><span>Inspect sales floor tiles for cracks, lippage or hollow sounds</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Shutter &amp; Door Full Service</strong><span>Full service of all shutters &amp; auto-door mechanisms (VSR if needed)</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Drainage System Flush</strong><span>CCTV/rod inspection of main drains; hydro-jetting if required (VSR)</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Waterproofing Assessment</strong><span>Assess all waterproofing areas; raise VSR for any failures or delamination</span></span><span class="pr M">M</span></li>
+</ul>
+<div class="bf"><span class="bc">0/11</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Q1/Q2/Q3/Q4 &#10003;&#10003;</div>
+</div>
+
+<div class="bub" style="border-top:4px solid var(--q)">
+<div class="bh"><span class="bi">&#128203;</span><div class="bt"><h3>VSR TRACKER &amp; PERFORMANCE REVIEW</h3><p>Raise all vendor jobs &amp; submit final report</p></div><span class="bdg" style="background:var(--q)">Quarterly</span></div>
+<div class="bdiv"></div>
+<div class="sl" style="color:var(--q)">&#128203; VSR — Vendor Support Required</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>AC Gas Leakage &amp; Jet Pump (VSR)</strong><span>Raise VSR for AC gas top-up &amp; jet pump full service</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Cold Room Gas Leakage (VSR)</strong><span>VSR for cold room refrigerant charge &amp; leak rectification</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Civil / POP / Painting Works (VSR)</strong><span>VSR for all last-level civil works by contractor</span></span><span class="pr L">L</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Cool Equipment Gasket Replacement (VSR)</strong><span>VSR for all cooling equipment gasket replacement</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>DG Quarterly Overhaul</strong><span>Fuel filter, oil filter, air filter, coolant flush &amp; belts check</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>UPS Battery Replacement Review</strong><span>Check battery age &amp; health; replace if &gt; 3 years or failed load test</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="sl" style="color:var(--q)">&#128200; Performance Review</div>
+<ul class="cl">
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Breakdown Pareto Analysis</strong><span>Pareto chart of breakdowns; focus on top 20% causing 80% of issues</span></span><span class="pr H">H</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>PM Schedule Review</strong><span>Review PM frequency for each equipment; adjust based on failure history</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Energy Cost Quarterly Report</strong><span>Quarterly energy analysis; submit savings opportunities to management</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Maintenance Cost vs Budget</strong><span>Compare actual maintenance spend vs budget; explain all variances</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Kaizen Review &amp; OPL</strong><span>Review Kaizen submissions; create OPLs for top 3 recurring faults in quarter</span></span><span class="pr M">M</span></li>
+  <li onclick="tog(this)"><span class="cb">&#10003;</span><span class="tt"><strong>Quarterly Report Submission</strong><span>Submit complete signed quarterly report to Area Manager &amp; Head Office</span></span><span class="pr H">H</span></li>
+</ul>
+<div class="bf"><span class="bc">0/12</span><div class="pb"><div class="pf"></div></div><span style="color:var(--wd)">&#10003;&#10003;</span></div>
+<div class="ts">Quarter End &#10003;&#10003;</div>
+</div>
+
+<button class="cbtn" style="background:var(--q)" onclick="cp('quarterly')">&#128203; Copy Quarterly Report for WhatsApp</button>
+<button class="rbtn" onclick="rst('quarterly')">&#128260; Reset All Quarterly Tasks</button>
+</div>
+
+</div><!-- /chat -->
+
+<div class="sbar">
+  <span style="font-size:20px">&#128512;</span>
+  <input class="si" type="text" placeholder="Type a message..." id="mi" onkeypress="if(event.key==='Enter')sm()">
+  <button class="sb" onclick="sm()">&#9658;</button>
+</div>
+<div class="toast" id="toast">&#10003; Saved!</div>
+
+<script>
+const STORAGE_KEY = 'gpm_checklist_state_v1';
+
+function getState(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
+}
+function saveState(state){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function taskKey(li){
+  const panel = li.closest('.panel').id;
+  const bub = li.closest('.bub');
+  const bubIdx = Array.from(bub.parentElement.querySelectorAll('.bub')).indexOf(bub);
+  const liIdx = Array.from(li.closest('.cl').parentElement.querySelectorAll('li')).indexOf(li);
+  return panel+'_b'+bubIdx+'_'+liIdx;
+}
+
+function sw(n,b){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.tb').forEach(function(t){t.classList.remove('on');});
+  document.getElementById('tab-'+n).classList.add('on');
+  b.classList.add('on');
+  updAll();
+}
+function tog(li){
+  li.classList.toggle('done');
+  const state = getState();
+  state[taskKey(li)] = li.classList.contains('done');
+  saveState(state);
+
+  var bub=li.closest('.bub');
+  var all=bub.querySelectorAll('li').length;
+  var done=bub.querySelectorAll('li.done').length;
+  var sp=bub.querySelector('.bc');
+  if(sp)sp.textContent=done+'/'+all;
+  var pf=bub.querySelector('.pf');
+  if(pf)pf.style.width=(all>0?done/all*100:0)+'%';
+  updTab(li.closest('.panel'));
+}
+function updTab(p){
+  if(!p)return;
+  var id=p.id.replace('tab-','');
+  var a=p.querySelectorAll('li').length;
+  var d=p.querySelectorAll('li.done').length;
+  var el=document.getElementById(id+'-count');
+  if(el)el.textContent=d+'/'+a;
+}
+function updAll(){
+  ['daily','weekly','monthly','quarterly'].forEach(function(t){
+    var p=document.getElementById('tab-'+t);
+    if(p)updTab(p);
+  });
+}
+function rst(id){
+  var p=document.getElementById('tab-'+id);
+  var state = getState();
+  p.querySelectorAll('li').forEach(function(l){
+    l.classList.remove('done');
+    delete state[taskKey(l)];
+  });
+  saveState(state);
+  p.querySelectorAll('.pf').forEach(function(f){f.style.width='0%';});
+  p.querySelectorAll('.bub').forEach(function(b){
+    var sp=b.querySelector('.bc');
+    if(sp)sp.textContent='0/'+b.querySelectorAll('li').length;
+  });
+  updTab(p);
+  showT('Reset done!');
+}
+function cp(id){
+  var p=document.getElementById('tab-'+id);
+  var now=new Date();
+  var ds=now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  var ts=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  var em={daily:'DAILY',weekly:'WEEKLY',monthly:'MONTHLY',quarterly:'QUARTERLY'};
+  var ic={daily:'📋',weekly:'🗓️',monthly:'📅',quarterly:'🔧'};
+  var txt=ic[id]+' *'+em[id]+' MAINTENANCE REPORT*\n';
+  txt+='🏪 *Store Maintenance Team — GPM*\n';
+  txt+='📅 Date: '+ds+'  ⏰ Time: '+ts+'\n';
+  txt+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+  p.querySelectorAll('.bub').forEach(function(b){
+    var h=b.querySelector('h3');
+    if(h)txt+='*'+(h.innerText||h.textContent).trim()+'*\n';
+    b.querySelectorAll('li').forEach(function(li){
+      var chk=li.classList.contains('done')?'✅':'⬜';
+      var nm=li.querySelector('strong');
+      var pr=li.querySelector('.pr');
+      if(nm)txt+=chk+' '+(nm.innerText||nm.textContent).trim()+(pr?' ['+(pr.innerText||pr.textContent).trim()+']':'')+'\n';
+    });
+    var a=b.querySelectorAll('li').length;
+    var d=b.querySelectorAll('li.done').length;
+    txt+='   ↳ '+d+'/'+a+' completed\n\n';
+  });
+  var a=p.querySelectorAll('li').length;
+  var d=p.querySelectorAll('li.done').length;
+  txt+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+  txt+='📊 *TOTAL: '+d+'/'+a+' ('+(a?Math.round(d/a*100):0)+'%)*\n';
+  txt+='🔧 Technician: ________________\n';
+  txt+='✅ Supervisor: ________________\n';
+  txt+='\n_Sent via Store GPM Maintenance App_';
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(function(){showT('Copied!');}).catch(function(){fb(txt);});
+  } else {fb(txt);}
+}
+function fb(t){
+  var x=document.createElement('textarea');
+  x.value=t;x.style.cssText='position:fixed;opacity:0;top:0;left:0;';
+  document.body.appendChild(x);x.focus();x.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(x);showT('Copied!');
+}
+function showT(msg){
+  var t=document.getElementById('toast');
+  t.textContent='✓ '+(msg||'Saved!');
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2200);
+}
+function sm(){var i=document.getElementById('mi');if(!i.value.trim())return;i.value='';showT('Sent!');}
+
+function restoreState(){
+  const state = getState();
+  document.querySelectorAll('li').forEach(function(li){
+    const key = taskKey(li);
+    if(state[key]){
+      li.classList.add('done');
+    }
+  });
+  document.querySelectorAll('.bub').forEach(function(b){
+    var all=b.querySelectorAll('li').length;
+    var done=b.querySelectorAll('li.done').length;
+    var sp=b.querySelector('.bc');
+    if(sp)sp.textContent=done+'/'+all;
+    var pf=b.querySelector('.pf');
+    if(pf)pf.style.width=(all>0?done/all*100:0)+'%';
+  });
+  updAll();
+}
+
+window.addEventListener('load', function(){
+  restoreState();
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('service-worker.js').catch(function(e){console.log('SW failed',e);});
+  }
+});
+
+// ── PWA Install Prompt ──
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBtn').style.display = 'inline-block';
+});
+function installApp(){
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function(){
+    deferredPrompt = null;
+    document.getElementById('installBtn').style.display = 'none';
+  });
+}
+window.addEventListener('appinstalled', function(){
+  document.getElementById('installBtn').style.display = 'none';
+  showT('App Installed!');
+});
+</script>
+</body>
+</html>
